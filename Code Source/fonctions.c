@@ -3,15 +3,23 @@
 #include <string.h>
 #include "fonctions.h"
 
-struct _CL{
-    int val;
-    struct _CL* suiv;
-};
 
-typedef struct _CL CL;
 
-typedef CL* liste;
+CL* recherche(int valeur, CL skipList){
 
+if(skipList==NULL) return NULL;
+
+
+
+
+
+
+}
+
+
+
+
+/*
 void affiche_liste(liste l){
     if(l==NULL){
         printf("()");
@@ -48,4 +56,4 @@ void insertion_fin(liste* l, int valeur){
         fin->suiv = NULL;
         temp->suiv = fin;
     }
-}
+}*/
