@@ -4,15 +4,11 @@
 #include <time.h>
 #include "fonctions.h"
 
-struct _CL{
-    int val;
-    struct _CL* suiv;
-};
 
-typedef struct _CL CL;
 
-typedef CL* liste;
+CL* recherche(int valeur, CL skipList){
 
+<<<<<<< HEAD
 int nbpiles(float prob){
     int face = 0;
     int res = -1;
@@ -27,6 +23,21 @@ int nbpiles(float prob){
     return res;
 }
 
+=======
+if(skipList==NULL) return NULL;
+
+
+
+
+
+
+}
+
+
+
+
+/*
+>>>>>>> 01d7a3cd58d0c1cafb247ab15e6e8552e426e51f
 void affiche_liste(liste l){
     if(l==NULL){
         printf("()");
@@ -63,4 +74,4 @@ void insertion_fin(liste* l, int valeur){
         fin->suiv = NULL;
         temp->suiv = fin;
     }
-}
+}*/
