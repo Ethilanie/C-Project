@@ -6,7 +6,30 @@
 
 
 
-CL* recherche(int valeur, CL skipList){
+
+CL* recherche(int valeur, CL* skipList){
+
+
+    if(skipList==NULL) return NULL;
+    else{
+        while(valeur != skipList->val){ //Tant qu'on ne tombe pas sur la bonne valeur recherchée
+            while(skipList->suiv != NULL && valeur<skipList->val){ //Tant que l'élément suivant le courant n'est pas NULL, et que la val recherchée est inférieure à la val courante
+                skipList = skipList->suiv; //On va sur l'élément suivant
+                }
+            if(skipList->bas != NULL){ //Si on peut aller en bas, on y va
+                skipList = skipList->bas;
+            }
+            else{ //Sinon, cela signifie qu'on a atteint le bout de la liste, et que la valeur recherchée n'est pas dans la SkipList
+                printf("La valeur recherchée n'est pas dans la liste");
+                return 0;
+            }
+            printf("La valeur recherchée est dans la liste !");
+            return 1;
+        }
+    }
+
+
+}
 
 
 
