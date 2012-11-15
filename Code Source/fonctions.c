@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "fonctions.h"
 
 struct _CL{
@@ -11,6 +12,20 @@ struct _CL{
 typedef struct _CL CL;
 
 typedef CL* liste;
+
+int nbpiles(float prob){
+    int face = 0;
+    int res = -1;
+    float n;
+    while(face==0){
+        res++;
+        n = rand()%(100);
+        if(n>=prob*100){
+            face=1;
+        }
+    }
+    return res;
+}
 
 void affiche_liste(liste l){
     if(l==NULL){
