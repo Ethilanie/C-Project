@@ -31,6 +31,34 @@ CL* recherche(int valeur, CL* skipList){
 
 }
 
+int longueur(CL* parcoursSL){
+	int i=0;
+	for (i = 0 ; parcoursSL != NULL; i++){
+	parcoursSL++;
+	}
+	return i;
+}
+
+CL* ajoutVal(int valeur, CL* parcoursSL,CL* skipList, int nbpile){
+//ajout dans la skipListe d'une valeur
+if(skipList==NULL) return NULL; //si la skiplist est vide ou qu'il n'y a pas de parcours
+if(parcoursSL==NULL) return NULL;
+int i;
+CL* element; 
+CL* temp = NULL;
+int lg = longueur(parcoursSL);
+i=lg;
+	while(i > 0 && i< nbpile){
+		//on créé une nouvelle case, avec la nouvelle valeur et nouveaux pointeurs
+		element =(CL*)malloc(sizeof(CL));
+		element->val = valeur;
+		element->bas = temp;
+		element->suiv = parcoursSL[i].suiv;
+		parcoursSL[i].suiv = element;
+		temp = element;
+		i--;
+	}
+}
 
 
 
