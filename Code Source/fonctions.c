@@ -24,7 +24,7 @@ CL* recherche(int valeur, CL* skipList){
                 return 0;
             }
             printf("La valeur recherchée est dans la liste !");
-            return 1;
+            return NULL;//a changer
         }
     }
 
