@@ -30,7 +30,7 @@ while ((opt = getopt(argc, argv, "tn:")) != -1) {
 	}
 	
 }
-ajoutVal(5,skipList, 2);
-//ajoutVal(5,skipList, 2);
+skipList = ajoutVal(5,skipList, 2);
+skipList = ajoutVal(8,skipList, 8);
 afficheListe(skipList);
 }
