@@ -26,5 +26,8 @@ while ((opt = getopt(argc, argv, "tn:")) != -1) {
 		
 
 	}
+	
+	ajoutVal(5,skipList, 2){
+	
 }
 }
