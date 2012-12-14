@@ -74,7 +74,7 @@ CL* element;
 CL* temp = NULL;
 CL* basTemp = NULL;
 L* TeteListe=skipList;
-printf("je passe ici (la skip liste existe) %d %d \n",hauteur(skipList),nbinser );
+printf("je passe ici (la skip liste existe) %d %d  AJOUT DE %d \n",hauteur(skipList),nbinser, valeur );
 
 if(hauteur(skipList)<nbinser){
 	int i=0;
@@ -105,7 +105,7 @@ if(hauteur(skipList)<nbinser){
 	printf("je passe ici (hauteur inf a nbpiles - sortie boucle) \n");
 }else{
 
-	while(hauteur(skipList) != (ht-nbinser)){ //tant qu'on est pas a la bonne ligne pour inserer la valeur
+	while(hauteur(skipList) != nbinser+1){ //tant qu'on est pas a la bonne ligne pour inserer la valeur
 		printf("donnees : hauteur liste : %d, nbinser : %d\n, ht skipliste : %d", hauteur(skipList),nbinser, ht);
 		printf("je passe ici (placement sur skipliste) \n");
 		skipList=skipList->suite;
@@ -125,28 +125,24 @@ if(hauteur(skipList)<nbinser){
 			basTemp=NULL;
 			element->bas = basTemp;
 		}else{ //si en milieu de liste (ou fin)
-			while(temp->suiv!= NULL && temp->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
-				printf("je passe ici (placement en milieu de liste) \n");
+			while(temp->suiv!= NULL && temp->suiv->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
+				printf("je passe ici (placement en milieu de liste) temp : %d \n", temp->val);
 				getchar();
 		
 				temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
 			}
-				printf("olol\n");
-				getchar();
+				printf("temp : %d\n",temp->val);
 				basTemp =(CL*)malloc(sizeof(CL));
 				element=basTemp;
-				printf("olol2\n");
-				getchar();
 				element->val = valeur;
 				printf("temp : %d, element %d\n", temp->val, element->val);
+				if(temp->suiv!=NULL){
+				printf("temp suiv: %d\n", temp->suiv->val);
+				}
 				getchar();
-				temp->suiv = element->suiv;
+				element->suiv = temp->suiv;
 				temp->suiv=element;
-				printf("olol8\n");
-				getchar();
 				basTemp=NULL;
-				printf("olol9\n");
-				getchar();
 				element->bas = basTemp;		
 				printf("je passe ici (ajout case voir pbm avec bas) \n");
 		}	
@@ -161,14 +157,13 @@ void afficheListe(L* skipList){
     int ht = hauteur(skipList);
     while(ht >= 1 && skipList!=NULL){
 		temp = skipList->tete;
-		printf("je passe dans la fonction ht>=1 ht=%d\n", ht);
+		//printf("je passe dans la fonction ht>=1 ht=%d\n", ht);
         while(temp!=NULL){
 				printf("valeur :%d -",temp->val);
-				getchar();
+				
 				temp = temp->suiv;				
         }
 		printf("\n");
-		getchar();
         skipList= skipList->suite;		
         ht = ht - 1;
     }
