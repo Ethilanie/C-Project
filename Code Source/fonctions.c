@@ -31,11 +31,25 @@ CL* recherche(int valeur, CL* skipList){
 
 }
 
+int nbpiles(float prob){
+    int face = 0;
+    int res = -1;
+    float n;
+    while(face==0){
+        res++;
+        n = rand()%(100);
+        if(n>=prob*100){
+            face=1;
+        }
+    }
+    return res;
+}
 L* creerTete(){
     L* nouvTete;
     nouvTete->tete = (L*)malloc(sizeof(L));
     return nouvTete;
 }
+
 
 int longueur(CL* parcoursSL){
 	int i=0;
@@ -55,18 +69,43 @@ int hauteur(L* skipList){
 	return ht;
 }
 
-CL* ajoutVal(int valeur,L* skipList, int nbinser){
+L* ajoutVal(int valeur,L* skipList, int nbinser){
 //ajout dans la skipListe d'une valeur
 if(skipList==NULL) return NULL; //si la skiplist est vide ou qu'il n'y a pas de parcours
 
-int i;
 int ht = hauteur(skipList);
 CL* element;
 CL* temp = NULL;
 CL* basTemp = NULL;
-i=lg;
+
+
+if(hauteur(skipList)<nbinser){
+	int i=0;
+	L* TeteListe=(L*)malloc(sizeof(L));
+	L* tempL;
+	L* tempL2;
+	while(i<(nbinser-hauteur(skipList))){
+		if(i==0){
+			tempL = creerTete();
+			TeteListe->suite= tempL;
+		 }else{
+		 tempL2 = (L*)malloc(sizeof(L));
+		 tempL->suite = tempL2;
+		 tempL=tempL2;
+		 }
+		 tempL->tete = (CL*)malloc(sizeof(CL));
+		 tempL->tete->val = valeur;
+		 tempL->tete->suiv = NULL;
+		 tempL->tete->bas =  NULL;
+		i++;
+	}
+	tempL->suite = skipList;
+}
+
+
+
 while(hauteur(skipList) != (ht-nbinser)){ //tant qu'on a pas
-	skipList=skipList->suiv;
+	skipList=skipList->suite;
 }
 
 while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
@@ -77,39 +116,22 @@ while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
 		element->val = valeur;
 		element->suiv = temp;
 		skipList->tete = element;
-		basTemp = (CL*)malloc(sizeof(CL));
-		if(hauteur(skipList)!=1){
-			element->bas = basTemp;
-			basTemp->val = valeur;
-		}else{
-			element->bas = NULL;
-		}
+		element->bas = basTemp;
 	}else{ //si en milieu de liste (ou fin)
 		while(temp->suiv != NULL && temp->suiv->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
 			temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
 		}
-		if (basTemp == NULL){
-			element =(CL*)malloc(sizeof(CL));
-			element->val = valeur;
-			element->suiv = temp;
-			basTemp = (CL*)malloc(sizeof(CL));
-
-			element->suiv = temp;
-			temp->suiv = element;
-		}else{
-
-
-		}
-		if(hauteur(skipList)!=1){
-			element->bas = basTemp;
+			basTemp =(CL*)malloc(sizeof(CL));
 			basTemp->val = valeur;
-		}else{
-			element->bas = NULL;
-		}
+			basTemp->suiv = temp;
+			temp->suiv = basTemp;
+			element=basTemp;
+			basTemp=NULL;
+			element->bas = basTemp;		
+	}	
+	skipList=skipList->suite;
+	}
 }
-skipList=skipList->suite;
-}
-
 void afficheListe(L* skipList){
     CL* temp;
     int ht = hauteur(skipList);
