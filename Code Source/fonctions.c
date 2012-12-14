@@ -39,66 +39,68 @@ int longueur(CL* parcoursSL){
 	return i;
 }
 
-CL* ajoutVal(int valeur, CL* parcoursSL,CL* skipList, int nbpile){
+int hauteur(L* skipList){
+	int ht = 0;
+	if(skipList==NULL) return 0;
+	while(skipList!=NULL){
+		ht=ht +1;
+		skipList= skipList->suite;
+	}
+	return ht;	
+}
+
+CL* ajoutVal(int valeur,L* skipList, int nbinser){
 //ajout dans la skipListe d'une valeur
 if(skipList==NULL) return NULL; //si la skiplist est vide ou qu'il n'y a pas de parcours
-if(parcoursSL==NULL) return NULL;
+
 int i;
+int ht = hauteur(skipList);
 CL* element; 
 CL* temp = NULL;
-int lg = longueur(parcoursSL);
+CL* basTemp = NULL;
 i=lg;
-	while(i > 0 && i< nbpile){
-		//on créé une nouvelle case, avec la nouvelle valeur et nouveaux pointeurs
+while(hauteur(skipList) != (ht-nbinser)){ //tant qu'on a pas 
+	skipList=skipList->suiv;
+}
+
+while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
+	temp = skipList->tete;
+	//TETE DE LISTE
+	if(temp==NULL || (temp!=NULL && temp->val>valeur)){//si la val de la tete de liste est sup a ce quon veut inserer
 		element =(CL*)malloc(sizeof(CL));
 		element->val = valeur;
-		element->bas = temp;
-		element->suiv = parcoursSL[i].suiv;
-		parcoursSL[i].suiv = element;
-		temp = element;
-		i--;
-	}
+		element->suiv = temp;
+		skipList->tete = element;
+		basTemp = (CL*)malloc(sizeof(CL));
+		if(hauteur(skipList)!=1){
+			element->bas = basTemp;
+			basTemp->val = valeur;
+		}else{
+			element->bas = NULL;
+		}
+	}else{ //si en milieu de liste (ou fin)
+		while(temp->suiv != NULL && temp->suiv->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
+			temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
+		}
+		if (basTemp == NULL){
+			element =(CL*)malloc(sizeof(CL));
+			element->val = valeur;
+			element->suiv = temp;
+			basTemp = (CL*)malloc(sizeof(CL));
+			
+			element->suiv = temp;
+			temp->suiv = element;
+		}else{
+			
+			
+		}	
+		if(hauteur(skipList)!=1){
+			element->bas = basTemp;
+			basTemp->val = valeur;
+		}else{
+			element->bas = NULL;
+		}
+}
+skipList=skipList->suite;
 }
 
-
-
-
-/*
->>>>>>> 01d7a3cd58d0c1cafb247ab15e6e8552e426e51f
-void affiche_liste(liste l){
-    if(l==NULL){
-        printf("()");
-    }
-    else{
-        printf("( %d ", l->val);
-        CL* temp = l->suiv;
-        while(temp != NULL){
-            printf("%d ", temp->val);
-            temp = temp->suiv;
-        }
-        printf(")\n");
-    }
-}
-
-void insertion_debut(liste* l, int valeur){
-    CL* deb = (CL*)malloc(1*sizeof(CL));
-    deb->val = valeur;
-    deb->suiv = *l;
-    *l = deb;
-}
-
-void insertion_fin(liste* l, int valeur){
-    if(*l==NULL){
-        insertion_debut(l, valeur);
-    }
-    else{
-        CL* fin = (CL*)malloc(1*sizeof(CL));
-        CL* temp = *l;
-        while(temp->suiv != NULL){
-            temp = temp->suiv;
-        }
-        fin->val = valeur;
-        fin->suiv = NULL;
-        temp->suiv = fin;
-    }
-}*/
