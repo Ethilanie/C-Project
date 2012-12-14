@@ -31,6 +31,12 @@ CL* recherche(int valeur, CL* skipList){
 
 }
 
+L* creerTete(){
+    L* nouvTete;
+    nouvTete->tete = (L*)malloc(sizeof(L));
+    return nouvTete;
+}
+
 int longueur(CL* parcoursSL){
 	int i=0;
 	for (i = 0 ; parcoursSL != NULL; i++){
@@ -46,7 +52,7 @@ int hauteur(L* skipList){
 		ht=ht +1;
 		skipList= skipList->suite;
 	}
-	return ht;	
+	return ht;
 }
 
 CL* ajoutVal(int valeur,L* skipList, int nbinser){
@@ -55,11 +61,11 @@ if(skipList==NULL) return NULL; //si la skiplist est vide ou qu'il n'y a pas de 
 
 int i;
 int ht = hauteur(skipList);
-CL* element; 
+CL* element;
 CL* temp = NULL;
 CL* basTemp = NULL;
 i=lg;
-while(hauteur(skipList) != (ht-nbinser)){ //tant qu'on a pas 
+while(hauteur(skipList) != (ht-nbinser)){ //tant qu'on a pas
 	skipList=skipList->suiv;
 }
 
@@ -87,13 +93,13 @@ while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
 			element->val = valeur;
 			element->suiv = temp;
 			basTemp = (CL*)malloc(sizeof(CL));
-			
+
 			element->suiv = temp;
 			temp->suiv = element;
 		}else{
-			
-			
-		}	
+
+
+		}
 		if(hauteur(skipList)!=1){
 			element->bas = basTemp;
 			basTemp->val = valeur;
@@ -102,5 +108,19 @@ while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
 		}
 }
 skipList=skipList->suite;
+}
+
+void afficheListe(L* skipList){
+    CL* temp;
+    int ht = hauteur(skipList);
+    temp = skipList->tete;
+    while(ht >= 1){
+        while(temp!=NULL){
+            printf("%d", temp->val);
+            temp = temp->suiv;
+        }
+        skipList= skipList->suite;
+        ht = ht - 1;
+    }
 }
 
