@@ -10,6 +10,8 @@ int nbVal;
 float proba;
 
 nbopt=1;
+L* skipList;
+skipList = creerTete();
 while ((opt = getopt(argc, argv, "tn:")) != -1) {
 	switch (opt) {
 		case 't':
@@ -27,7 +29,8 @@ while ((opt = getopt(argc, argv, "tn:")) != -1) {
 
 	}
 	
-	ajoutVal(5,skipList, 2){
-	
 }
+ajoutVal(5,skipList, 2);
+//ajoutVal(5,skipList, 2);
+afficheListe(skipList);
 }
