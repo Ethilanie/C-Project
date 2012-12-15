@@ -66,13 +66,11 @@ int hauteur(L* skipList){
 
 L* ajoutVal(int valeur,L* skipList, int nbinser){
 //ajout dans la skipListe d'une valeur
-printf("je passe ici (entree de l'ajout) \n");
 if(skipList==NULL) return NULL; //si la skiplist est vide ou qu'il n'y a pas de parcours
 
 int ht = hauteur(skipList);
-CL* element;
+CL* element = (CL*)malloc(sizeof(CL));
 CL* temp = NULL;
-CL* basTemp = NULL;
 L* TeteListe=skipList;
 printf("je passe ici (la skip liste existe) %d %d  AJOUT DE %d \n",hauteur(skipList),nbinser, valeur );
 
@@ -82,73 +80,55 @@ if(hauteur(skipList)<nbinser){
 	L* tempL;
 	L* tempL2;
 	while(i<(nbinser-ht)){
-	printf("je passe ici (tant que %d < %d - %d \n",i,nbinser,ht);
 		if(i==0){
-			printf("je passe ici (hauteur inf a nbpiles) \n");
 			tempL = creerTete();
 			TeteListe->suite= tempL;
 		}else{
-			printf("je passe ici (hauteur inf a nbpiles 2) \n");
 			tempL2 = creerTete();
 			tempL->suite = tempL2;
 			tempL=tempL2;
 		}
-		/*tempL->tete = (CL*)malloc(sizeof(CL));
-		tempL->tete->val = valeur;
-		tempL->tete->suiv = NULL;
-		tempL->tete->bas =  NULL;*/
-		printf("je passe ici (hauteur inf a nbpiles 3) \n");
 		i++;
 	}
 	tempL->suite = skipList;
 	skipList = TeteListe;
-	printf("je passe ici (hauteur inf a nbpiles - sortie boucle) \n");
 }else{
-
 	while(hauteur(skipList) != nbinser+1){ //tant qu'on est pas a la bonne ligne pour inserer la valeur
-		printf("donnees : hauteur liste : %d, nbinser : %d\n, ht skipliste : %d", hauteur(skipList),nbinser, ht);
-		printf("je passe ici (placement sur skipliste) \n");
 		skipList=skipList->suite;
 	}
 }
 	while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
-		printf("je passe ici (fonction) hauteur : %d \n", hauteur(skipList));
 		temp = skipList->tete;
 		//TETE DE LISTE
 		if(temp==NULL || (temp!=NULL && temp->val>valeur)){//si la val de la tete de liste est sup a ce quon veut inserer
-			printf("je passe ici (si tete de liste) \n");
-			basTemp =(CL*)malloc(sizeof(CL));//dans le cas ou la case d'en haut pointerai sur basTemp,ilfaut creer cette case
-			element=basTemp; //element pointe vers BasTemp
 			element->val = valeur;
 			element->suiv = temp;
 			skipList->tete = element;
-			basTemp=NULL;
-			element->bas = basTemp;
+			if(hauteur(skipList)==1){
+				element->bas=NULL;
+			}else{
+				element->bas = (CL*)malloc(sizeof(CL));
+				element=element->bas;
+				
+			}
+			
 		}else{ //si en milieu de liste (ou fin)
 			while(temp->suiv!= NULL && temp->suiv->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
-				printf("je passe ici (placement en milieu de liste) temp : %d \n", temp->val);
-				getchar();
-		
 				temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
 			}
-				printf("temp : %d\n",temp->val);
-				basTemp =(CL*)malloc(sizeof(CL));
-				element=basTemp;
 				element->val = valeur;
-				printf("temp : %d, element %d\n", temp->val, element->val);
-				if(temp->suiv!=NULL){
-				printf("temp suiv: %d\n", temp->suiv->val);
-				}
-				getchar();
 				element->suiv = temp->suiv;
 				temp->suiv=element;
-				basTemp=NULL;
-				element->bas = basTemp;		
-				printf("je passe ici (ajout case voir pbm avec bas) \n");
+				if(hauteur(skipList)==1){
+					element->bas=NULL;
+				}else{
+					element->bas = (CL*)malloc(sizeof(CL));
+					element=element->bas;
+				}
+				
 		}	
 		skipList=skipList->suite;
 	}
-
 	return TeteListe;
 }
 
@@ -167,5 +147,26 @@ void afficheListe(L* skipList){
         skipList= skipList->suite;		
         ht = ht - 1;
     }
+	printf("\n");
+}
+
+void affichetest(L* skipList){
+    CL* temp;
+	CL* ligne;
+	while(skipList!=NULL){
+		ligne =skipList->tete;
+		temp = skipList->tete;
+		while(ligne!=NULL){
+			while(temp!=NULL){
+				printf("valeur :%d -",temp->val);
+				temp = temp->bas;				
+			}
+			ligne=ligne->suiv;
+			temp = ligne;
+		}
+		printf("\n");
+		skipList = skipList->suite;
+	}
+    
 }
 
