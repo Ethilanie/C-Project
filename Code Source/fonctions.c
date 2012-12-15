@@ -32,14 +32,21 @@ CL* recherche(int valeur, CL* skipList){
 }
 
 int nbpiles(float prob){
+    printf("Valeur de prob à la base : %f", prob);
     int face = 0;
-    int res = -1;
-    float n;
+    int res = 0;
+    int n = 0;
+    float probInt = (prob * 100.0);
     while(face==0){
+        srand(time(NULL));
         res++;
-        n = rand()%(100);
-        if(n>=prob*100){
+        n = rand()%100;
+        printf("Valeur de n : %d \n",n);
+        if(n>=(int)(probInt)){
             face=1;
+            printf("Valeur de n dans la boucle : %d \n", n);
+            printf("Valeur de probInt dans la boucle : %f \n", probInt);
+            printf("Youpi ça passe dans le face = 1 !");
         }
     }
     return res;

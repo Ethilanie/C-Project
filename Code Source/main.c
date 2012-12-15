@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 
 int main(int argc, char* argv[]){
 
@@ -42,7 +43,9 @@ afficheListe(skipList);
 
 affichetest(skipList);
 
-for(i = 0; i<5; i++){
-    printf("%d \n", nbpiles(0.5));
-    }
+
+    srand(time(NULL));
+    printf("\n \n Printf d'un float : %f", (float)(0.5));
+    printf("Probabilité : %d \n", nbpiles((double)(0.5)));
+
 }
