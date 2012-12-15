@@ -44,13 +44,31 @@ int nbpiles(float prob){
     }
     return res;
 }
+
+
 L* creerTete(){
     L* nouvTete;
     nouvTete = (L*)malloc(sizeof(L));
+    if(nouvTete == NULL){
+        printf("Erreur d'allocation, tête non créée");
+        return NULL;
+        }
 	nouvTete->tete = NULL;
 	nouvTete->suite=NULL;
     return nouvTete;
 }
+
+CL* creeCase(){
+    CL* nouvCase;
+    nouvCase = (CL*)malloc(sizeof(CL));
+    if(nouvCase == NULL){
+        printf("Erreur d'allocation, case non créée");
+        return NULL;
+        }
+    nouvCase->suiv = NULL;
+    nouvCase->bas = NULL;
+    return nouvCase;
+    }
 
 
 
@@ -109,9 +127,9 @@ if(hauteur(skipList)<nbinser){
 			}else{
 				element->bas = (CL*)malloc(sizeof(CL));
 				element=element->bas;
-				
+
 			}
-			
+
 		}else{ //si en milieu de liste (ou fin)
 			while(temp->suiv!= NULL && temp->suiv->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
 				temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
@@ -125,8 +143,8 @@ if(hauteur(skipList)<nbinser){
 					element->bas = (CL*)malloc(sizeof(CL));
 					element=element->bas;
 				}
-				
-		}	
+
+		}
 		skipList=skipList->suite;
 	}
 	return TeteListe;
@@ -140,11 +158,11 @@ void afficheListe(L* skipList){
 		//printf("je passe dans la fonction ht>=1 ht=%d\n", ht);
         while(temp!=NULL){
 				printf("valeur :%d -",temp->val);
-				
-				temp = temp->suiv;				
+
+				temp = temp->suiv;
         }
 		printf("\n");
-        skipList= skipList->suite;		
+        skipList= skipList->suite;
         ht = ht - 1;
     }
 	printf("\n");
@@ -159,7 +177,7 @@ void affichetest(L* skipList){
 		while(ligne!=NULL){
 			while(temp!=NULL){
 				printf("valeur :%d -",temp->val);
-				temp = temp->bas;				
+				temp = temp->bas;
 			}
 			ligne=ligne->suiv;
 			temp = ligne;
@@ -167,6 +185,6 @@ void affichetest(L* skipList){
 		printf("\n");
 		skipList = skipList->suite;
 	}
-    
+
 }
 
