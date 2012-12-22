@@ -31,22 +31,40 @@ CL* recherche(int valeur, CL* skipList){
 
 }
 
-int nbpiles(float prob){
+
+ /*float frand() {
+     return (float) rand() / RAND_MAX;
+ }*/
+
+ int tirage(double proba) {
+     static int init = 1;
+     if(init) {
+         srand((unsigned)time(NULL));
+         init = 0;
+     }
+	int etages = 0;
+    while(((float) rand() / RAND_MAX)> proba){
+ 		etages++;
+    }
+	return etages;
+}
+
+int nbpiles(double prob){
     printf("Valeur de prob à la base : %f", prob);
     int face = 0;
     int res = 0;
     int n = 0;
-    float probInt = (prob * 100.0);
+    srand(time(NULL));
     while(face==0){
-        srand(time(NULL));
-        res++;
-        n = rand()%100;
+
+        n = rand()%(int)(1/prob);
         printf("Valeur de n : %d \n",n);
-        if(n>=(int)(probInt)){
+        if(n>=1){
             face=1;
             printf("Valeur de n dans la boucle : %d \n", n);
-            printf("Valeur de probInt dans la boucle : %f \n", probInt);
             printf("Youpi ça passe dans le face = 1 !");
+        }else{
+            res++;
         }
     }
     return res;

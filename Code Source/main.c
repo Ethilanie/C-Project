@@ -45,7 +45,6 @@ affichetest(skipList);
 
 
     srand(time(NULL));
-    printf("\n \n Printf d'un float : %f", (float)(0.5));
-    printf("Probabilité : %d \n", nbpiles((double)(0.5)));
+    printf("Probabilité : %d \n", tirage(0.1));
 
 }
