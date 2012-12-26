@@ -1,8 +1,7 @@
 
 
-- modifier la fonction recherche pour qu'elle renvoie le tableau des cases parcourues
 
-- faire la fonction qui va utiliser la fonction recherche, la fonction pile ou face, la fonction d'ajout d'une valeur (en argument : probabilité, nombre d'elements..)
+-la fonction d'ajout de toutes les valeurs (en argument : probabilité, nombre d'elements..) qui va utiliser la fonction skiplist deja faite (en gros une simple boucle..)
 
 
 options à ajouter dans le case du main :
@@ -19,9 +18,5 @@ options à ajouter dans le case du main :
 	 r : lance la recherche de chaque élément de la liste, et affiche le nombre de pas total nécessaires pour retrouver les éléments.
 	 i : le programme affiche graphiquement le contenu de la skip-liste une fois qu elle est remplie. (option)
 
-____________________
-Questions 
+-commencer le dossier !
 
-1/ Lister les 1000 premiers entiers dans un ordre aléatoire : les entiers sont aléatoires, l'odre d'insertion aussi ?
-
-2/ si on insere une case qui a une hauteur superieure a la premiere case de la skipliste
