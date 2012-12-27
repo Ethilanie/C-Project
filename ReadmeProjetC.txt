@@ -1,8 +1,6 @@
 
 
-
--la fonction d'ajout de toutes les valeurs (en argument : probabilité, nombre d'elements..) qui va utiliser la fonction skiplist deja faite (en gros une simple boucle..)
-
+-une fonction de recherche et une fonction de suppression
 
 options à ajouter dans le case du main :
 
