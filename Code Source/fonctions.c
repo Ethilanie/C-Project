@@ -23,14 +23,16 @@ int recherche(int valeur, L* skipList)
     int trouve = 0;
     int pas = 0;
     temp = skipList->tete;
-    if(skipList != NULL)//On vérifie que la liste n'est pas vide
+    if(skipList != NULL){//On vérifie que la liste n'est pas vide
         while(trouve == 0) //On mets en place la boucle principale
         {
-            while (temp->val > valeur){ //Tant que la valeur courante est supérieure à la valeur cherchée et
-                pas = pas +1; //On ajoute un pas
-                skipList = skipList->suite; //On va sur la liste en dessous
-                temp = skipList->tete; //On replace temp au début de la liste
-                }
+            while (skipList !=NULL && temp->val > valeur ){ //Tant que la valeur courante est supérieure à la valeur cherchée et
+                //On replace temp au début de la liste
+				temp = skipList->tete;
+				pas = pas +1; //On ajoute un pas
+				skipList = skipList->suite; //On va sur la liste en dessous               
+                
+				}
             while(temp->suiv != NULL && temp->suiv->val<=valeur)  //Tant que l'élément suivant le courant n'est pas NULL, et que la val recherchée est inférieure à la val suivante
             {
                 temp= temp->suiv; //On va sur l'élément suivant
@@ -51,15 +53,18 @@ int recherche(int valeur, L* skipList)
                     pas = pas + 1; //On augmente le nombre de pas
                 }
                 else{
-                    printf("Valeur non présente dans la liste : %d \n", valeur); //Sinon, on est au bout de la liste, la valeur n'est pas présente
+                    printf("Valeur non présente dans la liste : %d \n", valeur);
+					trouve=1;//Sinon, on est au bout de la liste, la valeur n'est pas présente
                 }
 
             }
+			//pas = pas + 1;
 
             }
+			
         
 }
-
+}
 
 
 
