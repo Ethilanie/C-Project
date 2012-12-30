@@ -6,6 +6,16 @@
 
 
 
+int* tableauAleatoire(int nbelements){
+    int* tab = (int*)malloc(nbelements*sizeof(int));
+    int i=0;
+    srand(time(NULL));
+    for(i=0;i<nbelements;i++){
+
+        tab[i] = rand()%(nbelements-1) +1;
+    }
+    return tab;
+}
 
 int recherche(int valeur, L* skipList)
 {
@@ -47,41 +57,26 @@ int recherche(int valeur, L* skipList)
             }
 
             }
-        }
+        
 }
 
 
 
-/*float frand() {
-    return (float) rand() / RAND_MAX;
-}*/
 
-int tirage(double proba)
-{
-    static int init = 1;
-    if(init)
-    {
-        srand((unsigned)time(NULL));
-        init = 0;
-    }
-    int etages = 0;
-    while(((float) rand() / RAND_MAX)> proba)
-    {
-        etages++;
-    }
-    return etages;
-}
 
- int nbPiles(double proba) {
+ int nbPiles(double proba, int hauteur) {
      static int init = 1;
+     int stop = 0;
      if(init) {
          srand((unsigned)time(NULL));
          init = 0;
      }
 	int etages = 0;
-    while(((float) rand() / RAND_MAX)> proba){
+    while(((float) rand() / RAND_MAX)> proba && stop ==0){
  		etages++;
+ 		if(etages>=hauteur+1){stop=1;}
     }
+    //printf("nb pile : %d\n", etages);
 	return etages;
 }
 
@@ -117,104 +112,66 @@ CL* creeCase()
 
 
 
-int hauteur(L* skipList)
-{
-    int ht = 1;
-    if(skipList==NULL) return 0;
-    while(skipList->suite!=NULL)
-    {
-        ht=ht +1;
-        skipList= skipList->suite;
-    }
-    return ht;
+int hauteur(L* skipList){
+	int ht = 1;
+	if(skipList==NULL) return 0;
+	while(skipList->suite!=NULL){
+		ht=ht +1;
+		skipList= skipList->suite;
+	}
+	return ht;
 }
 
-L* ajoutVal(int valeur,L* skipList, int nbinser)
-{
-//ajout dans la skipListe d'une valeur
-    if(skipList==NULL) return NULL; //si la skiplist est vide ou qu'il n'y a pas de parcours
+L* ajoutVal(int valeur,L* skipList, int nbinser){
+    //ajout dans la skipListe d'une valeur
+    if(skipList==NULL) return NULL; //si la skiplist est vide
 
-    int ht = hauteur(skipList);
-    CL* element = (CL*)malloc(sizeof(CL));
+    CL* element = creeCase();
     CL* temp = NULL;
     L* TeteListe=skipList;
+   /* getchar();
     printf("je passe ici (la skip liste existe) %d %d  AJOUT DE %d \n",hauteur(skipList),nbinser, valeur );
-
-    if(hauteur(skipList)<nbinser)
-    {
-        int i=0;
+*/
+    //Ajout de Liste dans le cas d'un nombre d'insertion supérieur a la hauteur de la skipListe
+    if(hauteur(skipList)<nbinser+1){
         TeteListe= creerTete();
-        L* tempL;
-        L* tempL2;
-        while(i<(nbinser-ht))
-        {
-            if(i==0)
-            {
-                tempL = creerTete();
-                TeteListe->suite= tempL;
-            }
-            else
-            {
-                tempL2 = creerTete();
-                tempL->suite = tempL2;
-                tempL=tempL2;
-            }
-            i++;
-        }
-        tempL->suite = skipList;
+        TeteListe->suite= skipList;
         skipList = TeteListe;
-    }
-    else
-    {
-        while(hauteur(skipList) > nbinser+1)  //tant qu'on est pas a la bonne ligne pour inserer la valeur
-        {
+    }else{
+        //s'il n'a pas besoin d'ajouter (nbinsertion inferieur a la hauteur), il faut se placer sur la bonne liste
+        while(hauteur(skipList) > nbinser+1){ //tant qu'on est pas a la bonne ligne pour inserer la valeur
             skipList=skipList->suite;
         }
     }
-    while(hauteur(skipList)>=1)  //tant qu'on est pas arrivé a la derniere ligne
-    {
-        temp = skipList->tete;
-        //TETE DE LISTE
-        if(temp==NULL || (temp!=NULL && temp->val>valeur)) //si la val de la tete de liste est sup a ce quon veut inserer
-        {
-            element->val = valeur;
-            element->suiv = temp;
-            skipList->tete = element;
-            if(hauteur(skipList)==1)
-            {
-                element->bas=NULL;
-            }
-            else
-            {
-                element->bas = (CL*)malloc(sizeof(CL));
-                element=element->bas;
 
-            }
-
-        }
-        else   //si en milieu de liste (ou fin)
-        {
-            while(temp->suiv!= NULL && temp->suiv->val<valeur)  //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
-            {
-                temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
-            }
+    //Ajout de la valeur
+    while(hauteur(skipList)>=1){ //tant qu'on est pas arrivé a la derniere ligne
+		temp = skipList->tete;
+		//Si ajout en tete de liste
+		if(temp==NULL || (temp!=NULL && temp->val>valeur)){//si la val de la tete de liste est sup a ce quon veut inserer
+			element->val = valeur;
+			element->suiv = temp;
+			skipList->tete = element;
+		}else{ //si en milieu de liste (ou fin)
+			while(temp->suiv!= NULL && temp->suiv->val<valeur){ //tant que la valeur suivante existe et qu'elle est inférieure a celle qu'on veut inserer
+				temp = temp->suiv; //on avance dans les cases (on se place a l'endroit ou on veut inserer ololol
+			}
             element->val = valeur;
             element->suiv = temp->suiv;
             temp->suiv=element;
-            if(hauteur(skipList)==1)
-            {
-                element->bas=NULL;
-            }
-            else
-            {
-                element->bas = (CL*)malloc(sizeof(CL));
-                element=element->bas;
-            }
+		}
+		if(hauteur(skipList)==1){
+            element->bas=NULL;
+        }else{
+            element->bas = creeCase();
+            element=element->bas;
 
         }
         skipList=skipList->suite;
-    }
-    return TeteListe;
+
+	}
+	element= NULL;
+	return TeteListe;
 }
 
 void afficheListe(L* skipList)
@@ -262,19 +219,15 @@ void affichetest(L* skipList)
 
 }
 
-L* boucleAjout(L* skipList, int* val_elements,int nbelts, double proba)
-{
+L* boucleAjout(L* skipList, int* val_elements,int nbelts, double proba){
 
-    int i=0;
+int i=0;
 
-    int nbjetes=0;
-    for(i=0; i<nbelts; i++)
-    {
-        printf("Elément ajouté du tableau : %d \n", i);
-        nbjetes=nbPiles(proba);
-        getchar();
-        skipList = ajoutVal(val_elements[i],skipList, nbjetes);
-    }
+int nbjetes=0;
+for(i=0;i<nbelts;i++){
+    nbjetes=nbPiles(proba, hauteur(skipList));
+    skipList = ajoutVal(val_elements[i],skipList, nbjetes);
+}
 
     return skipList;
 }
