@@ -9,7 +9,6 @@ int main(int argc, char* argv[]){
 int opt, nbopt;
 int nbVal;
 float proba;
-int i = 0;
 
 nbopt=1;
 L* skipList;
@@ -32,19 +31,26 @@ while ((opt = getopt(argc, argv, "tn:")) != -1) {
 	}
 
 }
-skipList = ajoutVal(5,skipList, 2);
 
-skipList = ajoutVal(8,skipList, 8);
-skipList = ajoutVal(4,skipList, 4);
-skipList = ajoutVal(7,skipList, 3);
-skipList = ajoutVal(1,skipList, 0);
-skipList = ajoutVal(16,skipList, 2);
+int* val_elements = (int*)malloc(10*sizeof(int));
+
+int i;
+for(i=0;i<10;i++){
+val_elements[i]=i;
+}
+
+skipList = boucleAjout(skipList,val_elements,10,0.2);
+
 afficheListe(skipList);
 
 affichetest(skipList);
 
 
     srand(time(NULL));
-    printf("Probabilité : %d \n", tirage(0.1));
+
+
+for(i=0;i<10;i++){
+recherche(i, skipList);
+}
 
 }
