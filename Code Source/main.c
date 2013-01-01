@@ -6,14 +6,16 @@
 #include <string.h>
 
 int main(int argc, char* argv[]){
-int nombre_elements = 1000;
+int nombre_elements = 20;
 double probabilite = 0.5;
 int opt, nbopt;
 int affichehauteur=0;
 int affichetexte = 0;
 int affichegraph = 0;
+CL* elemtemp;
 nbopt=1;
 L* skipList;
+L* skipList2;
 skipList = creerTete();
 while ((opt = getopt(argc, argv, "p:n:ohltri")) != -1) {
 	switch (opt) {
@@ -52,12 +54,14 @@ while ((opt = getopt(argc, argv, "p:n:ohltri")) != -1) {
 }
 printf("probabilite : %f, nb elements : %d \n", probabilite, nombre_elements);
 
+    printf("Bloci");
  int* val_elements = tableauAleatoire(nombre_elements);
+ printf("Bloc bloc");
 
-   
-	
+
+
     skipList = boucleAjout(skipList,val_elements,nombre_elements,probabilite);
-	
+
 	if(affichetexte==1){
 		afficheListe(skipList);
 	}
@@ -67,13 +71,22 @@ printf("probabilite : %f, nb elements : %d \n", probabilite, nombre_elements);
 	if(affichegraph==1){
 		printf("La fonction affichage graphique n'est pas disponible \n");
 	}
-	
-  
+
+
 int i =0;
 
-for(i=9;i<19;i++){
+/*for(i=9;i<19;i++){
 	printf("recherche : : %d ",recherche(i, skipList));
-}
+}*/
+
+afficheListe(skipList);
+//boucleRecherche(skipList, nombre_elements);
+skipList2 = supprimerVal(10,skipList);
+afficheListe(skipList2);
+/*elemtemp = trouvePosition(10, skipList);
+if (elemtemp !=NULL){
+printf("Valeur de l'élem temp : %d", elemtemp->val);
+}*/
 
 
 

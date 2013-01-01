@@ -21,17 +21,15 @@ int recherche(int valeur, L* skipList)
 {
     CL* temp;
     int trouve = 0;
-    int pas = 0;
+    int pas = 1;
     temp = skipList->tete;
     if(skipList != NULL){//On vérifie que la liste n'est pas vide
         while(trouve == 0) //On mets en place la boucle principale
         {
-            while (skipList !=NULL && temp->val > valeur ){ //Tant que la valeur courante est supérieure à la valeur cherchée et
-                //On replace temp au début de la liste
-				temp = skipList->tete;
+            while (skipList !=NULL && temp->val > valeur && skipList->suite !=NULL ){ //Tant que la valeur courante est supérieure à la valeur cherchée et qu'on est pas à la fin de la skipliste
+				skipList = skipList->suite; //On va sur la liste en dessous
+				temp = skipList->tete;//On replace temp au début de la liste
 				pas = pas +1; //On ajoute un pas
-				skipList = skipList->suite; //On va sur la liste en dessous               
-                
 				}
             while(temp->suiv != NULL && temp->suiv->val<=valeur)  //Tant que l'élément suivant le courant n'est pas NULL, et que la val recherchée est inférieure à la val suivante
             {
@@ -41,7 +39,7 @@ int recherche(int valeur, L* skipList)
             if(temp->val == valeur) //Si on est sur la bonne valeur
             {
                 printf("Valeur présente dans la liste ! %d \n",temp->val);
-                printf("Avec le nombre de pas : %d \n", pas);
+                printf("Avec le nombre de pas : %d \n\n\n", pas);
                 trouve = 1;
                 return pas; //On retourne le nombre de pas
             }
@@ -55,17 +53,141 @@ int recherche(int valeur, L* skipList)
                 else{
                     printf("Valeur non présente dans la liste : %d \n", valeur);
 					trouve=1;//Sinon, on est au bout de la liste, la valeur n'est pas présente
+					return 0;
                 }
 
             }
 			//pas = pas + 1;
 
             }
-			
-        
+
+
 }
 }
 
+CL* trouvePosition(int valeur, L* skipList)
+{
+    CL* tempPrec;
+    int trouve = 0;
+    tempPrec = skipList->tete;
+    if(skipList != NULL){//On vérifie que la liste n'est pas vide
+        while(trouve == 0) //On mets en place la boucle principale
+        {
+            while (skipList !=NULL && tempPrec->val > valeur && skipList->suite !=NULL ){ //Tant que la valeur courante est supérieure à la valeur cherchée et qu'on est pas à la fin de la skipliste
+				skipList = skipList->suite; //On va sur la liste en dessous
+				tempPrec = skipList->tete;//On replace temp au début de la liste
+				}
+            while(tempPrec->suiv != NULL && tempPrec->suiv->val<valeur)  //Tant que l'élément suivant le courant n'est pas NULL, et que la val recherchée est inférieure à la val suivante
+            {
+                tempPrec= tempPrec->suiv; //On va sur l'élément suivant
+                            }
+            if(tempPrec->val == valeur) //Si on est sur la bonne valeur
+            {
+                printf("Valeur présente dans la liste ! %d \n",tempPrec->val);
+                trouve = 1;
+                return tempPrec; //On retourne le nombre de pas
+            }
+            else if(tempPrec->val<valeur && tempPrec->suiv != NULL && tempPrec->suiv->val==valeur){
+                printf("Il y a une valeur précédente : ");
+                printf("%d, %d \n \n", tempPrec->val, tempPrec->suiv->val);
+                trouve = 1;
+                return tempPrec;
+            }
+            else //Sinon
+            {
+                if(tempPrec->bas != NULL)  //Si on peut aller en bas, on y va
+                {
+                    tempPrec = tempPrec->bas;
+                                    }
+                else{
+                    printf("Valeur non présente dans la liste : %d \n", valeur);
+					trouve=1;//Sinon, on est au bout de la liste, la valeur n'est pas présente
+					return NULL;
+                }
+
+            }
+
+            }
+
+
+}
+}
+
+L* supprimerVal(int valeur, L* skipList){
+    CL* temp;
+    CL* tempSupp;
+    CL* tempSuiv;
+    CL* tempBas;
+    CL* temp2;
+    int trouve = 0;
+
+    if(skipList != NULL){//On vérifie que la liste n'est pas vide
+        if (recherche(valeur, skipList)!=0){
+
+            tempSupp = trouvePosition(valeur, skipList);
+            printf("Valeur de temp : %d\n",tempSupp->val);
+
+            if(tempSupp->val == valeur && tempSupp->suiv != NULL){ //Si la valeur recherchée est en tête de liste, il n'y a pas de précédent
+                while(tempSupp != NULL){
+                    tempSupp->suiv = skipList->tete;
+                    tempBas = tempSupp->bas;
+                    free(tempSupp);
+                    tempSupp = tempBas;
+                    printf("Suppression 1 s'est bien passée ! Avec tempSupp : %d \n", tempSupp->val);
+                }
+            }
+            else if(tempSupp->val != valeur && tempSupp->suiv != NULL ){//Si la valeur recherchée n'est pas en tête de liste
+                temp = tempSupp;
+                tempSupp = temp->suiv;
+                while (tempSupp->suiv !=NULL){
+                        tempSuiv = tempSupp->suiv;
+                        temp->suiv = tempSuiv;
+                        if(tempSupp->bas != NULL){
+                            tempBas = tempSupp->bas;
+                            free(tempSupp);
+                            printf("Réussie !\n");
+                            tempSupp = tempBas;
+                            tempSuiv = tempSuiv->bas;
+                            temp = temp->bas;
+                            while(temp->suiv != tempSupp){
+                                temp = temp->suiv;
+}
+                        }
+                        else{
+                            free(tempSupp);
+                            return skipList;
+                            }
+
+                }
+            }
+
+            else{
+                printf("Va pas là bro...\n");
+                       }
+}
+    return skipList;
+}
+}
+
+int boucleRecherche(L* skipList, int nbElements){
+    int pas = 0;
+    int i = 0;
+    int tabPas[nbElements];
+    for (i = 0; i<nbElements; i++){
+        tabPas[i] = recherche(i, skipList);
+        }
+
+        printf("==========================\n");
+        printf("||  Cases || Nombre de pas ||\n");
+    for (i = 1; i <= nbElements; i++){
+        printf("||       %d || %d       ||\n",i, tabPas[i]);
+        }
+        printf("=========================");
+    for(i = 1; i<=nbElements; i++){
+        pas = pas + tabPas[i];
+        }
+    printf("\n \n Somme des pas : %d", pas);
+    }
 
 
 
@@ -230,10 +352,11 @@ int i=0;
 
 int nbjetes=0;
 for(i=0;i<nbelts;i++){
-    nbjetes=nbPiles(proba, hauteur(skipList));
-    skipList = ajoutVal(val_elements[i],skipList, nbjetes);
+if(recherche(val_elements[i], skipList)==0){
+nbjetes=nbPiles(proba, hauteur(skipList));
+skipList = ajoutVal(val_elements[i],skipList, nbjetes);
+}
 }
 
-    return skipList;
+return skipList;
 }
-
