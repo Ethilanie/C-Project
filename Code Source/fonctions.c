@@ -4,8 +4,8 @@
 #include <time.h>
 #include "fonctions.h"
 
-void textcolor(int attr, int fg, int bg)
-{	char command[13];
+void textcolor(int attr, int fg, int bg){	
+	char command[13];
 	/* Command is the control command to the terminal */
 	sprintf(command, "%c[%d;%d;%dm", 0x1B, attr, fg + 30, bg + 40);
 	printf("%s", command);
@@ -201,7 +201,7 @@ int recherche(int valeur, L* skipList){
 }
 
 //recherche toutes les valeurs de la skiplist
-int boucleRecherche(L* skipList, int nbElements){
+void boucleRecherche(L* skipList, int nbElements){
     int pas = 0;
     int i = 0;
     int tabPas[nbElements];
@@ -210,18 +210,19 @@ int boucleRecherche(L* skipList, int nbElements){
         tabPas[i] = recherche(i, skipList);
     }
 
-    printf("==========================\n");
+    printf("  ==========================\n");
     printf("||  Cases || Nombre de pas ||\n");
-    for (i = 1; i <= nbElements; i++)
+    for (i = 0; i < nbElements; i++)
     {
-        printf("||       %d || %d       ||\n",i, tabPas[i]);
+        printf("||%7d ||%15d||\n",i, tabPas[i]);
     }
-    printf("=========================");
-    for(i = 1; i<=nbElements; i++)
+    printf("  =========================");
+    for(i = 0; i<nbElements; i++)
     {
         pas = pas + tabPas[i];
     }
-    printf("\n \n Somme des pas : %d", pas);
+	printf("\n 0 : la valeur n'existe pas");
+    printf("\n \n Somme des pas : %d\n", pas);
 }
 
 //supprime une valeur

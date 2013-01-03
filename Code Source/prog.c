@@ -85,7 +85,7 @@ int main(int argc, char* argv[]){
 		}
 
 	}
-	printf("probabilite : %f, nb elements : %d \n", probabilite, nombre_elements);
+	printf("probabilite : %f, nb elements : %d \n\n", probabilite, nombre_elements);
 	textcolor(UNDERLINE,MAGENTA, BLACK );	
     
 	if(opt_f==0){ //si l'utilisateur n'a pas choisi de fichier
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]){
 		afficheListe(skipList);
 	}
 	if(afficherecherche==1){
-		//a faire
+		boucleRecherche(skipList,nombre_elements);
 	}
 	if(affichegraph==1){
 		printf("La fonction affichage graphique n'est pas disponible \n");
