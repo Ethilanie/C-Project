@@ -41,8 +41,8 @@ int main(int argc, char* argv[]){
 	L* skipList;
 	int* val_elements;
 	skipList = creerTete();
-	printf("-----------------------PROGRAMME----------------------\n");
-	while ((opt = getopt(argc, argv, "h:p:f:n:ohltri")) != -1) {
+	printf("\n-----------------------PROGRAMME----------------------\n");
+	while ((opt = getopt(argc, argv, "hp:f:n:ohltri")) != -1) {
 		switch (opt) {
 			case 'h' :
 				AfficherAide();	
@@ -81,6 +81,7 @@ int main(int argc, char* argv[]){
 				if(strchr (argv[nbopt], 'i')!=NULL){
 					affichegraph=1;
 				}
+				nbopt++;
 				break;
 		}
 
@@ -106,7 +107,7 @@ int main(int argc, char* argv[]){
 		printf("hauteur: %d\n", hauteur(skipList));
 	}
 	if(affichelongueur==1){
-		//a faire
+		afficheLongueur(skipList);
 	}
 	if(affichetexte==1){
 		afficheListe(skipList);
@@ -115,7 +116,7 @@ int main(int argc, char* argv[]){
 		boucleRecherche(skipList,nombre_elements);
 	}
 	if(affichegraph==1){
-		printf("La fonction affichage graphique n'est pas disponible \n");
+		printf("L'option affichage graphique n'est pas disponible \n");
 	}
 
 	return EXIT_SUCCESS;

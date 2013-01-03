@@ -4,6 +4,24 @@
 #include <time.h>
 #include "fonctions.h"
 
+#define RESET		0
+#define BRIGHT 		1
+#define DIM			2
+#define UNDERLINE 	3
+#define BLINK		4
+#define REVERSE		7
+#define HIDDEN		8
+
+#define BLACK 		0
+#define RED			1
+#define GREEN		2
+#define YELLOW		3
+#define BLUE		4
+#define MAGENTA		5
+#define CYAN		6
+#define	WHITE		7
+
+
 void textcolor(int attr, int fg, int bg){	
 	char command[13];
 	/* Command is the control command to the terminal */
@@ -305,9 +323,44 @@ void afficheListe(L* skipList){
 
 //affiche l'option h
 void AfficherAide(){
-	printf("	");
-
-
+	textcolor(UNDERLINE,GREEN, BLACK );	
+	printf("\n\t NAME\n");
+	textcolor(UNDERLINE,YELLOW, BLACK );	
+	printf("\t\t Le programme prog.exe permet de creer des skip-list avec les options choisies\n");
+	textcolor(UNDERLINE,GREEN, BLACK );	
+	printf("\t SYNOPSIS\n");
+	textcolor(UNDERLINE,YELLOW, BLACK );
+	printf("\t\t ./prog [-h]\n");
+	printf("\t\t        [-p var-double]\n");
+	printf("\t\t        [-n var-int | -f @file]\n");
+	printf("\t\t        [-o] [h][l][t][r][i]\n");
+	textcolor(UNDERLINE,GREEN, BLACK );	
+	printf("\t DESCRIPTION\n");
+	textcolor(UNDERLINE,YELLOW, BLACK );
+	printf("\t\t Le programme prog permet de creer des skiplistes.\n\
+	\t Developpe en C.\n\
+	\t Il est possible d'utiliser plusieurs options mais certaines ne doivent pas etre groupees : -f et -n\n\
+	\t L'ordre des options n'importe pas\n");
+	textcolor(UNDERLINE,GREEN, BLACK );	
+	printf("\t OPTIONS\n");
+	textcolor(UNDERLINE,YELLOW, BLACK );
+	printf("\t\t Sommaire\n\t\t Voici le sommaire des options, par type.\n\n");
+	printf("\t\t Option Probabilite\n\t\t -p\n\n");
+	printf("\t\t Option Elements\n\t\t -n -f\n\n");
+	printf("\t\t Option Affichage\n\t\t -o\n\n");
+	
+	printf("\t\t -p Modifie la probabilite par defaut \n\n");
+	printf("\t\t -n Modifie le nombre d'elements a ajouter dans la skip-list \n\n");
+	printf("\t\t -f Ajoute les elements du fichier a la skip-list \n\n");
+	printf("\t\t -o Precise les affichages \n\n");
+	printf("\t\t\t -oh : affiche la hauteur \n\n");
+	printf("\t\t\t -ol : affiche la longueur de chaque liste \n\n");
+	printf("\t\t\t -ot : affiche la skip-list en mode texte \n\n");
+	printf("\t\t\t -or : recherche chaque element et affiche le nombre de pas \n\n");
+	printf("\t\t\t -oi : affiche graphiquement la skip-list \n\n");
+	
+	
+	textcolor(UNDERLINE,WHITE, BLACK );
 }
 
 //renvoie un tableau avec les valeurs des elements du fichier passé en argument
@@ -347,6 +400,30 @@ printf("fonction fichier : %s \n", nomFichier);
 return tab;
 }
 
+void afficheLongueur(L*SkipList){
+	int ht = hauteur(SkipList);
+	printf("\n---Longueur de chaque hauteur---\n\n");
+	while(ht>0){
+		printf("Hauteur %d : %d element(s) \n", ht, nbElemHauteur(ht,SkipList));
+		ht--;
+		SkipList=SkipList->suite;	
+	}
+	printf("\n\n");
+}
+int nbElemHauteur(int ht,L* SkipList){
+    if (hauteur(SkipList)==0) return 0;
+    while(hauteur(SkipList)!=ht && SkipList!=NULL){
+        SkipList=SkipList->suite;
+    }
+    int i=0;
+    CL*temp;
+    temp = SkipList->tete;
+    while(temp!=NULL){
+        i++;
+        temp=temp->suiv;
+    }
+    return i;
+}
 
 int isNumeric(char caractere){
     //int i;
